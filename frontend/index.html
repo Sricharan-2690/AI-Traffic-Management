@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Based Traffic Management</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .hover-3d {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .hover-3d:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        .glow-btn {
+            background: linear-gradient(135deg, #0ea5e9, #6366f1);
+        }
+
+        .glow-btn:hover {
+            box-shadow: 0 0 30px rgba(99,102,241,0.6);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-black via-gray-900 to-black text-gray-200 min-h-screen">
+
+<div class="App max-w-7xl mx-auto px-6 py-10">
+    
+    <h1 class="text-4xl md:text-5xl font-semibold text-center mb-6">
+        🚗 AI Based Traffic Management
+    </h1>
+    <hr class="border-gray-700 mb-10">
+
+    <div class="main-container grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+        <!-- LEFT -->
+        <div class="left space-y-8">
+
+            <section id="hero" class="hero glass hover-3d rounded-2xl p-8">
+                <h2 class="text-2xl font-semibold mb-3">
+                    🚦 Optimize Traffic Flow with AI 🤖
+                </h2>
+                <p class="text-gray-400">
+                    Smart adaptive traffic control powered by AI using real-time video analysis to reduce congestion.
+                </p>
+            </section>
+
+            <section id="upload" class="upload glass hover-3d rounded-2xl p-8">
+                <h2 class="text-2xl font-semibold mb-3">
+                    📹 Upload Traffic Videos
+                </h2>
+                <p class="text-gray-400 mb-6">
+                    Upload 4 intersection videos. AI will compute optimal green signal timings.
+                </p>
+
+                <form id="uploadForm" class="space-y-5">
+                    <input 
+                        type="file" 
+                        id="fileInput"
+                        multiple 
+                        accept="video/*"
+                        class="w-full file:bg-gray-800 file:text-gray-300 file:border-0
+                               file:px-4 file:py-2 file:rounded-lg
+                               file:hover:bg-gray-700 cursor-pointer"
+                    />
+
+                    <button 
+                        type="submit"
+                        class="glow-btn w-full py-3 rounded-xl font-medium transition-all">
+                        🚀 Run AI Model
+                    </button>
+                </form>
+            </section>
+        </div>
+
+        <!-- RIGHT -->
+        <section id="result" class="result glass hover-3d rounded-2xl p-8">
+
+            <!-- DEMO GIF -->
+            <div id="demo-preview" class="mb-6 rounded-xl overflow-hidden shadow-2xl border border-white/10">
+                <img 
+                    src="../Demo.gif" 
+                    alt="Traffic AI Demo"
+                    class="w-full object-cover transition duration-700 hover:scale-105"
+                />
+            </div>
+
+            <!-- PLACEHOLDER -->
+            <div id="placeholder" class="placeholder text-center py-12">
+                <p class="text-gray-400 text-lg">
+                    Optimization results will appear here
+                    <br/>
+                    <span class="text-2xl mt-4 block">🚦🚦🚦🚦</span>
+                </p>
+            </div>
+
+            <!-- LOADER -->
+            <div id="loader" class="loader hidden text-center py-12">
+                <p class="text-blue-400 animate-pulse">
+                    Processing videos… please wait ⚙️
+                </p>
+            </div>
+
+            <!-- RESULTS -->
+            <div id="results" class="hidden">
+                <h2 class="text-2xl font-semibold mb-4">✅ Optimization Results</h2>
+                <p class="text-gray-400 mb-6">
+                    Recommended green times:
+                </p>
+
+                <ul class="space-y-4 text-lg">
+                    <li class="flex justify-between">🚦 North <span id="north-time" class="text-blue-400"></span> sec</li>
+                    <li class="flex justify-between">🚦 South <span id="south-time" class="text-blue-400"></span> sec</li>
+                    <li class="flex justify-between">🚦 West <span id="west-time" class="text-blue-400"></span> sec</li>
+                    <li class="flex justify-between">🚦 East <span id="east-time" class="text-blue-400"></span> sec</li>
+                </ul>
+            </div>
+
+            <!-- ERROR -->
+            <div id="error" class="hidden">
+                <h2 class="text-xl font-semibold text-red-500 mb-2">❌ Error</h2>
+                <p id="error-message" class="text-red-400"></p>
+            </div>
+
+        </section>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
