@@ -9,11 +9,11 @@ This project is designed so that **even someone with zero Python background** ca
 ## 📌 Table of Contents
 - [🎯 Project Overview](#-project-overview)
 - [🧠 How This System Works (Big Picture)](#-how-this-system-works-big-picture)
-- [📦 Project Structure](#-project-structure)
+- [📁 Project Structure](#-project-structure)
 - [🛠 Prerequisites (Explained Intuitively)](#-prerequisites-explained-intuitively)
 - [⚙️ Technologies Used](#️-technologies-used)
-- [🚀 Quick Start (Recommended)](#-quick-start-recommended)
-- [🔧 Manual Setup (Step-by-Step)](#-manual-setup-step-by-step)
+- [🚀 Quick Start (Recommended)](#-quick-start)
+- [🔧 Manual Setup (Step-by-Step)](#-manual-setup)
 - [🧩 Backend Explained (Deep Dive)](#-backend-explained-deep-dive)
 - [🧠 YOLO Explained (Vehicle Detection)](#-yolo-explained-vehicle-detection)
 - [🧬 Traffic Optimization Using Genetic Algorithm](#-traffic-optimization-using-genetic-algorithm)
@@ -44,22 +44,21 @@ Traditional traffic lights follow **fixed timing**, which causes:
 
 ## 🧠 How This System Works (Big Picture)
 
-Traffic Videos (4 lanes)
-↓
-YOLO Vehicle Detection
-↓
-Traffic Density Calculation
-↓
-Genetic Algorithm Optimization
-↓
-Optimized Traffic Light Timings
-↓
-Results shown on Web UI
-
+Traffic Videos (4 lanes)  
+↓  
+YOLO Vehicle Detection  
+↓  
+Traffic Density Calculation  
+↓  
+Genetic Algorithm Optimization  
+↓  
+Optimized Traffic Light Timings  
+↓  
+Results shown on Web UI  
 
 ---
 
-## 📁 Project Structure 
+## 📁 Project Structure
 
 ```
 AI-Based-Traffic-Management-SIH-main/
@@ -121,266 +120,142 @@ You **do NOT need to be an expert**, but knowing these helps:
 - **Vanilla JavaScript**
 - **Fetch API**
 
+---
 
-## 🚀 Quick Start:
- 
-### Prerequisites 
-- Python 3.7 or higher 
-- Modern web browser (Chrome, Firefox, Safari, Edge)
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.7 or higher
+- Modern web browser
 
 ### 🎯 Easiest Way to Start (Recommended)
- 
-#### Windows Users:
-```bash
-# Double-click the start_project.bat file
-# OR run from command line:
+
+#### Windows Users
+```
 start_project.bat
 ```
- 
-#### Linux/Mac Users:
-```bash
-# Make the script executable (first time only)
-chmod +x start_project.sh
 
-# Run the startup script
+#### Linux / Mac Users
+```
+chmod +x start_project.sh
 ./start_project.sh
 ```
- 
-### 🔧 Manual Setup
 
-#### 1. Backend Setup
+---
 
-```bash 
-# Navigate to backend directory 
+## 🔧 Manual Setup
+
+### 1. Backend Setup
+```
 cd backend
-
-# Install Python dependencies
 pip install -r requirements.txt
-
-# Start the backend server 
 python app.py
 ```
 
-The backend will start on `http://localhost:5000`
+Backend runs at: `http://localhost:5000`
 
-#### 2. Frontend Setup
+### 2. Frontend Setup
 
-The frontend is now a vanilla HTML/CSS/JS application. You can run it in several ways:
-  
-##### Option A: Using Python's built-in server (Recommended) 
-```bash  
-# Navigate to frontend directory 
-cd frontend 
-
-# Start the HTTP server
+#### Option A (Recommended)
+```
+cd frontend
 python -m http.server 8000
 ```
-Then open `http://localhost:8000` in your browser 
- 
-##### Option B: Direct file opening
-Simply double-click `frontend/index.html` to open it in your browser
+Open: `http://localhost:8000`
 
-##### Option C: Using Live Server (VS Code)
-1. Install "Live Server" extension in VS Code
-2. Right-click on `frontend/index.html`
-3. Select "Open with Live Server"
+#### Option B
+Open `frontend/index.html`
 
-### 3. Test Connection (Optional)
+#### Option C
+Use VS Code Live Server
 
-To verify everything is working correctly, you can test the connection:  
- 
-```bash
-# Open the connection test page
-http://localhost:8000/test_connection.html
-```
+---
 
-This will automatically test both backend and frontend connections.
+## 🧩 Backend Explained (Deep Dive)
 
-### 4. Usage
+### 🔹 app.py (START HERE)
 
-1. Open the main application: `http://localhost:8000/index.html`
-2. Click "Choose Files" and select exactly 4 video files showing different roads at an intersection
-3. Click "Run Model" to process the videos 
-4. Wait for the AI analysis (may take a few minutes)
-5. View the optimized traffic light timings for each direction
+Accepts 4 lane videos  
+Calls YOLO to detect vehicles  
+Calls Genetic Algorithm to optimize traffic  
+Returns optimized timings to frontend  
 
-🧩 Backend Explained (Deep Dive)
-🔹 app.py (START HERE)
+---
 
-This is the main entry point.
+## 🧠 YOLO Explained (Vehicle Detection)
 
-Responsibilities:
-
-Accepts 4 lane videos
-
-Calls YOLO to detect vehicles
-
-Calls Genetic Algorithm to optimize traffic
-
-Returns optimized timings to frontend
-
-🧠 YOLO Explained (Vehicle Detection)
 📄 File: yolov4.py
 
-YOLO does:
+Reads video frame-by-frame  
+Detects vehicles  
+Draws bounding boxes  
+Counts vehicles per frame  
+Computes mean vehicle count  
 
-Reads video frame-by-frame
+---
 
-Detects vehicles
-
-Draws bounding boxes
-
-Counts vehicles per frame
-
-Computes mean vehicle count across frames
-
-Why mean?
-→ reduces noise caused by sudden spikes
-
-🧬 Traffic Optimization Using Genetic Algorithm
+## 🧬 Traffic Optimization Using Genetic Algorithm
 
 📄 File: algo.py
 
-❓ Why Genetic Algorithm?
+Why Genetic Algorithm?
 
-Traffic optimization has millions of permutations.
+Traffic optimization has millions of permutations  
+Traditional methods fail or are too slow  
 
-Traditional methods fail or are too slow.
+Detailed explanation:  
+https://chatgpt.com/s/t_697392aa717481919e022ac01ff4a9fd
 
-GA works because:
+---
 
-It searches large solution spaces efficiently
+## 🌐 Frontend Explained
 
-Gives near-optimal results fast
+📄 File: script.js
 
-📘 Detailed explanation here:
-👉 https://chatgpt.com/s/t_697392aa717481919e022ac01ff4a9fd
+User uploads 4 videos  
+POST API call  
+Backend processes  
+Results returned  
+Displayed on UI  
 
-🔄 Genetic Algorithm Flow
-1️⃣ Initialize Population
+---
 
-Randomly choose 400 solutions
+## 📸 Output Screenshots
 
-Each solution = one traffic signal configuration
-
-2️⃣ Fitness Function
-
-Measures average delay
-
-Total Delay =
-
-🔴 Red light delay
-
-🟢 Congestion delay (green but traffic not cleared)
-
-Delay depends on:
-
-Green light effectiveness
-
-Congestion
-
-Red light duration
-
-Typical delay range:
-
-390 – 430 seconds (combined for 4 lanes)
-
-3️⃣ New Generation Creation
-
-Total generations = 25
-
-Roulette Wheel Selection for parents
-
-Apply:
-
-Crossover
-
-Mutation
-
-Inversion (if population size is low)
-
-4️⃣ Selection
-
-Merge old + new population
-
-Keep best solutions (least delay)
-
-Return optimal traffic timings
-
-🌐 Frontend Explained
-
-📄 script.js
-
-Flow:
-
-User uploads 4 videos
-
-Form submits via POST API
-
-Backend processes videos
-
-Results returned
-
-UI displays optimized timings
-
-No frameworks.
-Works on any modern browser.
-
-📸 Output Screenshots
-
-📌 Add your screenshots here
-
-🔹 UI Interface
-![UI Screenshot](screenshots/ui.png)
-
-🔹 Vehicle Detection
-![YOLO Detection](screenshots/yolo_output.png)
-
-🔹 Optimized Traffic Timings
+![UI Screenshot](screenshots/ui.png)  
+![YOLO Detection](screenshots/yolo_output.png)  
 ![Results](screenshots/results.png)
 
+(Create a screenshots folder and add images)
 
-(Create a screenshots/ folder and add images)
+---
 
-🚨 Troubleshooting
-Backend not starting
+## 🚨 Troubleshooting
 
-Check Python 3.7+
+Backend not starting  
+Frontend not connecting  
+Upload fails  
 
-Run pip install -r requirements.txt
+---
 
-Ensure port 5000 is free
+## 🧪 Testing
 
-Frontend not connecting
+Backend: Postman  
+Frontend: Browser DevTools  
 
-Backend must be running
+---
 
-Check CORS errors in console
+## 🛠 Customization & Extension
 
-Upload fails
+Change detection → yolov4.py  
+Modify optimization → algo.py  
+UI changes → script.js  
 
-Exactly 4 videos
+---
 
-Supported formats: MP4, AVI
+## 🤝 Contributing
 
-🧪 Testing
-
-Backend: Postman
-
-Frontend: Browser DevTools
-
-🛠 Customization & Extension
-
-Change detection logic → yolov4.py
-
-Modify optimization → algo.py
-
-Add UI features → script.js
-
-🤝 Contributing
-
-Fork the repo
-
-Create feature branch
-
-Commit changes
+Fork the repository  
+Create a feature branch  
+Commit changes  
+Submit a pull request  
