@@ -284,13 +284,11 @@ Works on any modern browser.
 
 ## 📸 Output Screenshots
 
-📌 Add your screenshots here
+<img width="1919" height="1079" alt="Screenshot 2026-01-23 221013" src="https://github.com/user-attachments/assets/c72a74fe-8c70-491f-bebc-fcfaee7e5051" />
+<img width="1900" height="889" alt="Screenshot 2026-01-23 221104" src="https://github.com/user-attachments/assets/db2f6384-574c-4653-a814-a55880dad93c" />
+<img width="1844" height="886" alt="Screenshot 2026-01-23 180730" src="https://github.com/user-attachments/assets/5cf43a7a-8918-42ee-a9d5-d6c4bce076e9" />
 
-![UI Screenshot](screenshots/ui.png)  
-![YOLO Detection](screenshots/yolo_output.png)  
-![Results](screenshots/results.png)
 
----
 
 ## 🚨 Troubleshooting
 
