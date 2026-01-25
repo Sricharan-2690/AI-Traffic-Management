@@ -56,7 +56,8 @@ Optimized Traffic Light Timings
 ↓  
 Results shown on Web UI  
 
----
+---<img width="1408" height="768" alt="Gemini_Generated_Image_jjrtb5jjrtb5jjrt" src="https://github.com/user-attachments/assets/80409983-049f-408b-8568-adda916ce3cc" />
+
 
 ## 📁 Project Structure
 
