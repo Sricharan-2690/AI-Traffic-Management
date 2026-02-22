@@ -6,7 +6,9 @@ from algo import optimize_traffic
 
 app = Flask(__name__)
 CORS(app)
-
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({"status": "Backend is running!"})
 # When someone sends a POST request to /upload, call the function below.
 @app.route('/upload', methods=['POST'])
 def upload_files():
