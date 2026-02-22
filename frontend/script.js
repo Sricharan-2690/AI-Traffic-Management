@@ -8,7 +8,7 @@ const error = document.getElementById('error');
 const errorMessage = document.getElementById('error-message');
 
 // API endpoint
-const API_URL = 'http://localhost:5000/upload';
+const API_URL = 'https://ai-traffic-management-6cso.onrender.com/upload';
 
 // Event listeners
 uploadForm.addEventListener('submit', handleSubmit);
