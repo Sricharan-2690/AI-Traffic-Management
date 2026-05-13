@@ -3,6 +3,7 @@ import time
 from collections import deque
 import numpy as np
 from scipy.signal import find_peaks
+import os
 
 def detect_cars(video_file):
     # Set thresholds-confidence
@@ -17,11 +18,14 @@ def detect_cars(video_file):
     # Load class names from file:Removes \n : strip
     # Converts lines → clean list
     class_name = []
-    with open('classes.txt', 'r') as f:
+    classes_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'classes.txt')
+    with open(classes_path, 'r') as f:
         class_name = [cname.strip() for cname in f.readlines()]
 
     # Load the network
-    net = cv.dnn.readNet('yolov4-tiny.weights', 'yolov4-tiny.cfg')
+    cfg_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'yolov4-tiny.cfg')
+    weights_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'yolov4-tiny.weights')
+    net = cv.dnn.readNet(weights_path, cfg_path)
 
     # Set preferable backend and target (CPU fallback for compatibility)
    

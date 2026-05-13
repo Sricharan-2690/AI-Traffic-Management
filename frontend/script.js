@@ -7,97 +7,135 @@ const results = document.getElementById('results');
 const error = document.getElementById('error');
 const errorMessage = document.getElementById('error-message');
 
-// API endpoint
-const API_URL = 'https://ai-traffic-management-6cso.onrender.com/upload';
+// API endpoint - Use 127.0.0.1 to avoid local DNS delays
+const API_URL = 'http://127.0.0.1:5000/upload';
+
+// Helper to safely parse JSON response
+async function parseResponse(response) {
+    const text = await response.text();
+    console.log('Raw response from server:', text);
+    try {
+        return JSON.parse(text);
+    } catch (e) {
+        console.error('Failed to parse JSON:', text);
+        throw new Error('Invalid JSON from server: ' + text.substring(0, 100));
+    }
+}
 
 // Event listeners
-uploadForm.addEventListener('submit', handleSubmit);
+if (uploadForm) {
+    uploadForm.addEventListener('submit', handleSubmit);
+    console.log('✅ Form listener attached');
+} else {
+    console.error('❌ Could not find uploadForm element!');
+}
 
 // Handle form submission
 async function handleSubmit(e) {
-    e.preventDefault();
-    
+    // 1. IMMEDIATELY prevent reload
+    if (e) e.preventDefault();
+    console.log('🚀 Form submission started...');
+
     const selectedFiles = Array.from(fileInput.files);
-    
+    console.log(`📂 Files selected: ${selectedFiles.length}`);
+
     // Validate file count
     if (selectedFiles.length !== 4) {
+        console.warn('⚠️ Validation failed: Not exactly 4 videos');
         alert('Please upload exactly 4 videos.');
-        return;
+        return false; // Extra safety to prevent submission
     }
-    
+
     // Show loading state
     showLoading();
-    
+
     try {
         const formData = new FormData();
-        selectedFiles.forEach(file => formData.append('videos', file));
-        
+        selectedFiles.forEach((file, index) => {
+            console.log(`  - Adding file ${index}: ${file.name}`);
+            formData.append('videos', file);
+        });
+
+        console.log('📡 Sending request to backend...');
         const response = await fetch(API_URL, {
             method: 'POST',
             body: formData
         });
-        
+
+        console.log(`📡 Response received. Status: ${response.status}`);
+
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            throw new Error(`Server error (${response.status}): ${errorText}`);
         }
-        
-        const result = await response.json();
-        
+
+        const result = await parseResponse(response);
+        console.log('✅ Final Result Object:', result);
+
         if (result.error) {
             showError(result.error);
         } else {
             showResults(result);
         }
-        
-    } catch (error) {
-        console.error('Error uploading files:', error);
-        showError('Failed to upload files. Please try again.');
+
+    } catch (err) {
+        console.error('❌ Catch Block Error:', err);
+        showError(err.message || 'Failed to upload files. Please check if the backend is running.');
     }
+
+    return false; // Prevent default
 }
 
 // Show loading state
 function showLoading() {
-    placeholder.style.display = 'none';
-    loader.style.display = 'block';
-    results.style.display = 'none';
-    error.style.display = 'none';
+    console.log('⏳ Showing Loader...');
+    placeholder.classList.add('hidden');
+    loader.classList.remove('hidden');
+    results.classList.add('hidden');
+    error.classList.add('hidden');
 }
 
 // Show results
 function showResults(result) {
-    placeholder.style.display = 'none';
-    loader.style.display = 'none';
-    results.style.display = 'block';
-    error.style.display = 'none';
-    
+    console.log('✨ Displaying Results in UI...');
+
+    placeholder.classList.add('hidden');
+    loader.classList.add('hidden');
+    results.classList.remove('hidden');
+    error.classList.add('hidden');
+
     // Update result values
-    document.getElementById('north-time').textContent = result.north;
-    document.getElementById('south-time').textContent = result.south;
-    document.getElementById('west-time').textContent = result.west;
-    document.getElementById('east-time').textContent = result.east;
+    if (result) {
+        document.getElementById('north-time').textContent = result.north ?? '--';
+        document.getElementById('south-time').textContent = result.south ?? '--';
+        document.getElementById('west-time').textContent = result.west ?? '--';
+        document.getElementById('east-time').textContent = result.east ?? '--';
+        console.log('✅ UI Updated successfully');
+    }
 }
 
 // Show error
 function showError(message) {
-    placeholder.style.display = 'none';
-    loader.style.display = 'none';
-    results.style.display = 'none';
-    error.style.display = 'block';
-    
+    console.error('🚑 Showing Error UI:', message);
+    placeholder.classList.add('hidden');
+    loader.classList.add('hidden');
+    results.classList.add('hidden');
+    error.classList.remove('hidden');
+
     errorMessage.textContent = message;
 }
 
 // Reset form and show placeholder
 function resetForm() {
     uploadForm.reset();
-    placeholder.style.display = 'block';
-    loader.style.display = 'none';
-    results.style.display = 'none';
-    error.style.display = 'none';
+    placeholder.classList.remove('hidden');
+    loader.classList.add('hidden');
+    results.classList.add('hidden');
+    error.classList.add('hidden');
 }
 
 // Add file input change listener to show selected files count
-fileInput.addEventListener('change', function() {
+fileInput.addEventListener('change', function () {
     const selectedFiles = Array.from(this.files);
-    console.log(`Selected ${selectedFiles.length} files`);
-}); 
+    console.log(`📁 Input Changed: ${selectedFiles.length} files selected`);
+});
